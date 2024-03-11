@@ -20,6 +20,10 @@ import mac from '../../assets/Union.png';
 import apple from '../../assets/apple.svg';
 
 export const HomeContent = () => {
+
+    
+
+
   return (
     <main>
       <Wrapper>
@@ -59,7 +63,8 @@ export const HomeContent = () => {
           <TextNum>200 +</TextNum>
           <TextSec>Tutor nationalities</TextSec>
         </Item>
-      </List>
+          </List>
+          
     </main>
   );
 };
