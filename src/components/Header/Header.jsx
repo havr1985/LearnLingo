@@ -1,5 +1,5 @@
 import logo from "../../assets/ukraine.svg";
-import { LogIn } from "lucide-react";
+import { LogIn, LogOut } from "lucide-react";
 import {
   BtnWrap,
   HeaderWrap,
@@ -10,12 +10,31 @@ import {
   NavWrap,
   RegBtn,
 } from "./Header.styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 export const Header = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [modal, setModal] = useState('')
+  const [modal, setModal] = useState('');
+  const [currentUser, setCurrentUser] = useState(false)
+  
+  const auth = getAuth();
+
+  useEffect(() => {
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    setCurrentUser(true);
+  }
+});
+  }, [auth])
+
+  const logoutClick = () => {
+    auth.signOut();
+    setCurrentUser(false)
+  }
 
   const openModal = () => {
     setIsOpen(true);
@@ -39,15 +58,37 @@ export const Header = () => {
           <Link to="/">Home</Link>
           <Link to="/teachers">Teachers</Link>
         </NavWrap>
-        <BtnWrap>
-          <LoginBtn onClick={() => { openModal(); setModal('login') }}>
-            <LogIn size={20} color="#F4C550" /> Log in
-          </LoginBtn>
-          <RegBtn type="button" onClick={() => { openModal(); setModal('register') }}>
-            Registration
-          </RegBtn>
-        </BtnWrap>
+        {currentUser ? (
+          <BtnWrap>
+            <LoginBtn onClick={logoutClick}>
+              <LogOut size={20} color="#F4C550" />
+              Log out
+            </LoginBtn>
+            <Link to="/favorite">Favorite</Link>
+          </BtnWrap>
+        ) : (
+          <BtnWrap>
+            <LoginBtn
+              onClick={() => {
+                openModal();
+                setModal("login");
+              }}
+            >
+              <LogIn size={20} color="#F4C550" /> Log in
+            </LoginBtn>
+            <RegBtn
+              type="button"
+              onClick={() => {
+                openModal();
+                setModal("register");
+              }}
+            >
+              Registration
+            </RegBtn>
+          </BtnWrap>
+        )}
       </HeaderWrap>
+
       {modalIsOpen && (
         <RegisterModal
           modalIsOpen={modalIsOpen}

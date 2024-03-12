@@ -34,6 +34,7 @@ export const Input = styled.input`
   border: 1px solid rgba(18, 20, 23, 0.1);
   height: 54px;
   padding-left: 18px;
+  outline: none;
   &::placeholder {
     color: #121417;
     font-size: 16px;
@@ -56,3 +57,12 @@ export const RegisterBtn = styled.button`
     background-color: #ffdc86;
   }
 `;
+export const ErrMsg = styled.div`
+font-size: 10px;
+color: red;
+`
+export const EyeBtn = styled.button`
+position: absolute;
+bottom: 180px;
+right: 85px;
+`

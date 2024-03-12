@@ -1,5 +1,9 @@
 import { useFormik } from "formik";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import * as Yup from 'yup';
 import {
+  ErrMsg,
+  EyeBtn,
   Form,
   Input,
   InputWrap,
@@ -7,16 +11,43 @@ import {
   Text,
   Title,
 } from '../RegisterForm/RegistrationForm.styled'
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 export const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email("Email not valid!")
+        .required("This field is required!"),
+      password: Yup.string()
+        .required("This field is required!")
+        .min(6, "Too short!"),
+    }),
+    onSubmit: ({email, password}, action) => {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user)
+          navigate('/teachers')
+        })
+        .catch((error) => {
+          console.log(error.message)
+        });
+      action.resetForm()
     },
   });
   return (
@@ -34,18 +65,31 @@ export const LoginForm = () => {
           name="email"
           type="email"
           onChange={formik.handleChange}
-          value={formik.values.lastName}
+          value={formik.values.email}
           placeholder="Email"
         />
+        {formik.touched.email && formik.errors.email ? (
+          <ErrMsg>{formik.errors.email}</ErrMsg>
+        ) : null}
 
         <Input
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           onChange={formik.handleChange}
-          value={formik.values.email}
+          value={formik.values.password}
           placeholder="Password"
         />
+        {formik.touched.password && formik.errors.password ? (
+          <ErrMsg>{formik.errors.password}</ErrMsg>
+        ) : null}
+        <EyeBtn type="button" onClick={handleTogglePassword}>
+          {showPassword ? (
+            <Eye color="#121417" size={18} />
+          ) : (
+            <EyeOff color="#121417" size={18} />
+          )}
+        </EyeBtn>
       </InputWrap>
 
       <RegisterBtn type="submit">Log in</RegisterBtn>

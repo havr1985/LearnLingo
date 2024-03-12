@@ -32,7 +32,7 @@ export const RegisterModal = ({ modalIsOpen, closeModal, modal }) => {
       <ModalWrap>
         <CloseBtn onClick={closeModal}><X size={32}/></CloseBtn>
         {modal === "register" && <RegisterForm />}
-        {modal === "login" && <LoginForm/>}
+        {modal === "login" && <LoginForm />}
       </ModalWrap>
     </Modal>
   );
