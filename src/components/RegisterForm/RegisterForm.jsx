@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,14 +35,14 @@ export const RegisterForm = () => {
     onSubmit: ({ email, password}, action) => {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user)
+        .then(() => {
+          toast.success('Autorization successful!')
           navigate ('/teachers')
         })
-        .catch((error) => 
-        console.log(error.message)
-      )
+        .catch((error) => {
+          toast.error('Email not valid!')
+          console.log(error.message)
+        })
       action.resetForm()
     },
   });

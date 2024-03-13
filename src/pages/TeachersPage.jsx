@@ -1,5 +1,11 @@
+import { TeachersList } from "../components/TeachersList/TeachersList";
+
 const TeachersPage = () => {
-  return <div>Teachers page</div>;
+  return (
+    <main>
+      <TeachersList/>
+    </main>
+  );
 };
 
 export default TeachersPage;

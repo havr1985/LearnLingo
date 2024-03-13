@@ -13,28 +13,28 @@ import {
 import { useEffect, useState } from "react";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import toast from "react-hot-toast";
 
 export const Header = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [modal, setModal] = useState('');
-  const [currentUser, setCurrentUser] = useState(false)
-  
+  const [modal, setModal] = useState("");
+  const [currentUser, setCurrentUser] = useState(false);
+
   const auth = getAuth();
 
   useEffect(() => {
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    setCurrentUser(true);
-  }
-});
-  }, [auth])
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(true);
+      }
+    });
+  }, [auth]);
 
   const logoutClick = () => {
     auth.signOut();
-    setCurrentUser(false)
-  }
+    toast.success('Log out successful!')
+    setCurrentUser(false);
+  };
 
   const openModal = () => {
     setIsOpen(true);

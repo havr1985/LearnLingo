@@ -4,6 +4,8 @@ import App from './App.jsx'
 import { GlobalStyle } from './GlobalStyle.js'
 import { BrowserRouter } from 'react-router-dom'
 import './firebase.js';
+import  { Toaster } from "react-hot-toast";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -11,5 +13,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <App />
     </BrowserRouter>
     <GlobalStyle />
+    <Toaster position="top-right" />
   </React.StrictMode>
 );

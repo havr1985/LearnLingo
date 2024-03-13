@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 
 export const LoginForm = () => {
@@ -39,12 +40,12 @@ export const LoginForm = () => {
     onSubmit: ({email, password}, action) => {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user)
+        .then(() => {
+          toast.success('Autorization successesful!')
           navigate('/teachers')
         })
         .catch((error) => {
+          toast.error(error.message)
           console.log(error.message)
         });
       action.resetForm()
