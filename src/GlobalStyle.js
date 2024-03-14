@@ -16,6 +16,7 @@ html {
 
 body {
   margin: 0;
+  background-color: #F8F8F8;
   font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   

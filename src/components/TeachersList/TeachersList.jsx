@@ -1,37 +1,37 @@
-import { onValue, ref } from 'firebase/database';
-import { db } from '../../firebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { requestTeachers } from "../../service/api";
+import { TeachersItem } from "../TeachersItem/TeachersItem";
 
 export const TeachersList = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-             try {
-                 const teachersRef = ref(db, "teachers");
-               onValue(
-                 teachersRef,
-                   (snapshot) => {
-                   setData(snapshot.val());
-                   setLoading(false);
-                 })
-                 
-             } catch (error) {
-               setError(error);
-               setLoading(false);
-             }
-        }
-        fetchData()
-        return () => {
-          
-        };
-        
-    }, [])
-
-    console.log(data)
-    return (
-        <div>Teachers list</div>
-    )
-}
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const result = await requestTeachers();
+        setTeachers(result);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+    fetchTeachers();
+  }, []);
+console.log(teachers)
+  return (
+    <div>
+      {loading && <div>Loading...</div>}
+      {error && <div>Error</div>}
+      <ul>
+        {teachers.map((teacher) => (
+          <li key={teacher.id}>
+            <TeachersItem teacher={teacher} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
