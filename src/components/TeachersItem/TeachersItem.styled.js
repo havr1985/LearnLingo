@@ -8,6 +8,10 @@ background-color: #FFFFFF;
 display: flex;
 margin-bottom: 32px;
 gap: 48px;
+
+`
+export const AvatarWrapp = styled.div`
+position: relative;
 `
 export const Avatar = styled.img`
   width: 120px;
@@ -68,13 +72,86 @@ export const Title = styled.h2`
   font-style: normal;
   font-weight: 500;
   line-height: 100%; /* 100% */
+  margin-bottom: 32px;
 `;
 export const Box = styled.div`
-display: flex;
-flex-wrap: wrap;
+/* display: flex;
+flex-wrap: wrap; */
 
 `
 export const TitleWrap = styled.div`
-display: flex;
-flex-direction: column;
+margin-top: 8px;
 `
+export const ContBox = styled.div`
+display: flex;
+margin-bottom: 8px;
+`
+export const ContLeft = styled.p`
+  color: #8a8a89;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 150% */
+`;
+export const ContRight = styled.p`
+  color: #121417;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  text-decoration-line: underline;
+`;
+export const ContRightB = styled.p`
+  color: #121417;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+`;
+export const ReadMoreBtn = styled.button`
+  color: #121417;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  text-decoration-line: underline;
+  margin-top: 8px;
+  margin-bottom: 32px;
+`;
+export const LevelsWrap = styled.div`
+display: flex;
+gap: 8px;
+`
+export const LevelsText = styled.p`
+  color: #121417;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 114.286%; /* 114.286% */
+  border-radius: 35px;
+  background: #f4c550;
+  padding: 8px 12px;
+  border: solid 1px #8a8a89;
+`;
+export const Point = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #38cd3e;
+  border: 2px solid #FFFFFF;
+  position: absolute;
+  top: 19px;
+  right: 23px;
+`;
+export const TrialBtn = styled.button`
+  margin-top: 32px;
+  width: 232px;
+  height: 60px;
+  background-color: #f4c550;
+  padding: 16px 38px;
+  border-radius: 12px;
+  color: #121417;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 155.556%; /* 155.556% */
+`;
