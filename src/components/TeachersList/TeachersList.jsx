@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { requestTeachers } from "../../service/api";
 import { TeachersItem } from "../TeachersItem/TeachersItem";
-import { List } from "./TeachersList.styled";
+import { List, LoadMoreBtn } from "./TeachersList.styled";
 
 export const TeachersList = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [visibleItems, setVisibleItems] = useState(4);
-  const [pageSize, setPageSize] = useState(4);
-  const [currentPage, setCurrentPage] = useState(1)
+  const [lastTeacherId, setLastTeacherId] = useState(1);
+  const [visibleClickMore, setVisibleClickMore] = useState(true);
+  const pageSize = 4;
 
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const result = await requestTeachers();
-        setTeachers(result);
+        const result = await requestTeachers(lastTeacherId, pageSize);
+
+        const teachersArr = Object.values(result);
+        const arr = teachersArr.filter((item) => item !== null);
+        setTeachers((prevTeachers) => [...prevTeachers, ...arr]);
+        arr.length < pageSize && setVisibleClickMore(false)
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -23,12 +27,11 @@ export const TeachersList = () => {
       }
     };
     fetchTeachers();
-  }, [currentPage, pageSize]);
+  }, [lastTeacherId]);
 
   const clickLoadMore = () => {
-    setVisibleItems(prev => prev + pageSize);
-    setCurrentPage(prev => prev + 1)
-  }
+    setLastTeacherId(teachers.length + 1);
+  };
 
   return (
     <div>
@@ -40,8 +43,13 @@ export const TeachersList = () => {
             <TeachersItem teacher={teacher} />
           </li>
         ))}
+        {visibleClickMore && (
+          <LoadMoreBtn type="button" onClick={clickLoadMore}>
+            Load more
+          </LoadMoreBtn>)}
       </List>
-      <button type="button" onClick={clickLoadMore}>Load more</button>
+      
+      
     </div>
   );
 };
