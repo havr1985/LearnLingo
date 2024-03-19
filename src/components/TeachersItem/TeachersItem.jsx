@@ -23,12 +23,19 @@ import {
   TopTextWrap,
   TrialBtn,
 } from "./TeachersItem.styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TeacherItemMore } from "../TeacherItemMore/TeacherItemMore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFavoriteTeachers } from "../../redux/teachersSelectors";
+import { changeFavorite } from "../../redux/favoriteSlice";
+
 
 export const TeachersItem = (teacher) => {
   const {
     teacher: {
+      id,
       avatar_url,
       name,
       surname,
@@ -45,10 +52,43 @@ export const TeachersItem = (teacher) => {
   } = teacher;
 
   const [readMore, setReadMore] = useState(false);
+  const favoriteTeachers = useSelector(selectFavoriteTeachers);
+  
+    const isFavorite = favoriteTeachers.some((teacher) => teacher.id === id) ;
+    const [pressed, setPressed] = useState(isFavorite);
+  
+  
+  
+  const [currentUser, setCurrentUser] = useState(false);
+  
+  const dispatch = useDispatch();
+  
+  const auth = getAuth();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(true);
+      }
+    });
+  }, [auth]);
+
+
+const handlePressed = () => {
+  if (!currentUser) {
+    toast.error("Please register or login!");
+    return;
+  }
+  setPressed((prev) => !prev);
+  dispatch(changeFavorite(teacher.teacher))
+  
+};
 
   const clickReadMore = () => {
-    setReadMore(true)
-  }
+    setReadMore(true);
+  };
+
+  
 
   return (
     <CardWrapper>
@@ -74,8 +114,12 @@ export const TeachersItem = (teacher) => {
             <LastText>
               Price / 1 hour: <Span>{price_per_hour}$</Span>
             </LastText>
-            <button>
-              <Heart size={26} />
+            <button onClick={handlePressed}>
+              {pressed ? (
+                <Heart size={26} color="#FFC531" fill="#FFC531" />
+              ) : (
+                <Heart size={26} />
+              )}
             </button>
           </TopTextWrap>
         </TopContentWrap>

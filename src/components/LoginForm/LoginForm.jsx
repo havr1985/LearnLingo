@@ -48,7 +48,8 @@ export const LoginForm = () => {
           toast.error(error.message)
           console.log(error.message)
         });
-      action.resetForm()
+      action.resetForm();
+      
     },
   });
   return (
@@ -93,7 +94,7 @@ export const LoginForm = () => {
         </EyeBtn>
       </InputWrap>
 
-      <RegisterBtn type="submit">Log in</RegisterBtn>
+      <RegisterBtn type="submit" >Log in</RegisterBtn>
     </Form>
   );
 };

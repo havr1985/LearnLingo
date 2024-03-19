@@ -14,11 +14,16 @@ import { useEffect, useState } from "react";
 import { RegisterModal } from "../RegisterModal/RegisterModal";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearFavorite } from "../../redux/favoriteSlice";
 
 export const Header = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modal, setModal] = useState("");
   const [currentUser, setCurrentUser] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const auth = getAuth();
 
@@ -32,8 +37,10 @@ export const Header = () => {
 
   const logoutClick = () => {
     auth.signOut();
-    toast.success('Log out successful!')
+    toast.success("Log out successful!");
     setCurrentUser(false);
+    dispatch(clearFavorite());
+    navigate("/");
   };
 
   const openModal = () => {
