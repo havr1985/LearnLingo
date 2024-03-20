@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { requestTeachers } from "../../service/api";
 import { TeachersItem } from "../TeachersItem/TeachersItem";
 import { List, LoadMoreBtn } from "./TeachersList.styled";
+import { Filters } from "../Filters/filters";
+import { useSelector } from "react-redux";
+import { selectVisibleTeachers } from "../../redux/teachersSelectors";
 
 export const TeachersList = () => {
   const [teachers, setTeachers] = useState([]);
@@ -9,6 +12,9 @@ export const TeachersList = () => {
   const [error, setError] = useState(null);
   const [lastTeacherId, setLastTeacherId] = useState(1);
   const [visibleClickMore, setVisibleClickMore] = useState(true);
+  const filtredTeachers = useSelector(selectVisibleTeachers);
+  console.log(filtredTeachers)
+
   const pageSize = 4;
 
   useEffect(() => {
@@ -37,6 +43,7 @@ export const TeachersList = () => {
     <div>
       {loading && <div>Loading...</div>}
       {error && <div>Error</div>}
+      <Filters/>
       <List>
         {teachers.map((teacher) => (
           <li key={teacher.id}>

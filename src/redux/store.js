@@ -11,6 +11,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { favoriteTeacherReducer } from "./favoriteSlice.js";
+import { teachersReducer } from "./teachersSlice.js";
+import { filtersReducer } from "./filtersSlice.js";
 
 
 const favConfig = {
@@ -20,7 +22,8 @@ const favConfig = {
 };
 
 const rootReducer = combineReducers({
-  
+  teachers: teachersReducer,
+  filters: filtersReducer,
   favoriteTeacher: persistReducer(favConfig, favoriteTeacherReducer),
   
 });

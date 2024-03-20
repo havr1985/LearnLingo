@@ -6,7 +6,12 @@ const baseUrl =
   
 export const requestTeachers = async (lastTeacherId, pageSize) => {
   const { data } = await axios.get(
-    `${baseUrl}.json?orderBy="id"&startAt=${lastTeacherId}&limitToFirst=${pageSize}`
+    `${baseUrl}.json?&orderBy="id"&startAt=${lastTeacherId}&limitToFirst=${pageSize}`
   );
   return data
+};
+
+export const requestAllTeachers = async () => {
+  const { data } = await axios.get(`${baseUrl}.json`);
+  return data;
 };
