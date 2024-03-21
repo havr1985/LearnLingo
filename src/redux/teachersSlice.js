@@ -16,6 +16,8 @@ export const allTeachersThunk = createAsyncThunk(
 
 const INITIAL_STATE = {
     teachers: [],
+    isLoading: false,
+    error: null,
 };
 
 const teacherSlice = createSlice({
@@ -24,9 +26,17 @@ const teacherSlice = createSlice({
     extraReducers: builder =>
         builder
             .addCase(allTeachersThunk.fulfilled, (state, { payload }) => {
-                
                 state.teachers = payload;
-                
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase(allTeachersThunk.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(allTeachersThunk.rejected, (state, { payload }) => {
+                state.isLoading = false;
+                state.error = payload;
     })
 })
 

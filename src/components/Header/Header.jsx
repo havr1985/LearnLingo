@@ -2,6 +2,7 @@ import logo from "../../assets/ukraine.svg";
 import { LogIn, LogOut } from "lucide-react";
 import {
   BtnWrap,
+  Head,
   HeaderWrap,
   Link,
   LoginBtn,
@@ -54,7 +55,7 @@ export const Header = () => {
   };
 
   return (
-    <header>
+    <Head>
       <HeaderWrap>
         <LogoWrap>
           <img src={logo} alt="logo" />
@@ -104,6 +105,6 @@ export const Header = () => {
           modal={modal}
         />
       )}
-    </header>
+    </Head>
   );
 };

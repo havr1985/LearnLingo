@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
   language: "",
-  level: "",
+    level: "",
+  price: "",
 };
 
 const filtersSlice = createSlice({
@@ -16,8 +17,11 @@ const filtersSlice = createSlice({
         changeLevel(state, { payload }) {
             state.level = payload
         },
+        changePrice(stae, { payload }) {
+            stae.price = payload
+        }
     },
 })
 
 export const filtersReducer = filtersSlice.reducer;
-export const { changeLanguage, changeLevel } = filtersSlice.actions;
+export const { changeLanguage, changeLevel, changePrice } = filtersSlice.actions;

@@ -1,56 +1,57 @@
 import { useEffect, useState } from "react";
-import { requestTeachers } from "../../service/api";
 import { TeachersItem } from "../TeachersItem/TeachersItem";
 import { List, LoadMoreBtn } from "./TeachersList.styled";
 import { Filters } from "../Filters/filters";
 import { useSelector } from "react-redux";
-import { selectVisibleTeachers } from "../../redux/teachersSelectors";
+import { selectAllTeachers, selectIsError, selectIsLoading, selectVisibleTeachers } from "../../redux/teachersSelectors";
 
 export const TeachersList = () => {
-  const [teachers, setTeachers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [lastTeacherId, setLastTeacherId] = useState(1);
-  const [visibleClickMore, setVisibleClickMore] = useState(true);
+ 
+  
   const filtredTeachers = useSelector(selectVisibleTeachers);
-  console.log(filtredTeachers)
+  const allTeachers = useSelector(selectAllTeachers);
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
 
-  const pageSize = 4;
+  const [items, setItems] = useState([]);
+  const [pageSize, setPageSize] = useState(8);
+  const [visibleLoadMore, setVisibleLoadMore] = useState(true);
+  const [teachers, setTeachers] = useState([])
+
 
   useEffect(() => {
-    const fetchTeachers = async () => {
-      try {
-        const result = await requestTeachers(lastTeacherId, pageSize);
-
-        const teachersArr = Object.values(result);
-        const arr = teachersArr.filter((item) => item !== null);
-        setTeachers((prevTeachers) => [...prevTeachers, ...arr]);
-        arr.length < pageSize && setVisibleClickMore(false)
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    fetchTeachers();
-  }, [lastTeacherId]);
+    if (filtredTeachers) {
+     setTeachers(filtredTeachers)
+    } else {
+      setTeachers(allTeachers)
+    }
+    setItems(teachers.slice(0, 4));
+    teachers.length <= 4
+      ? setVisibleLoadMore(false)
+      : setVisibleLoadMore(true);
+  }, [teachers, filtredTeachers, allTeachers]);
 
   const clickLoadMore = () => {
-    setLastTeacherId(teachers.length + 1);
+    const idx = items.length;
+    setPageSize((prev) => prev + 4);
+    setItems((prev) => [...prev, ...teachers.slice(idx, pageSize)]);
+    teachers.length <= pageSize
+      ? setVisibleLoadMore(false)
+      : setVisibleLoadMore(true);
   };
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error</div>}
+      {isLoading && <div>Loading...</div>}
+      {isError && <div>Error</div>}
       <Filters/>
       <List>
-        {teachers.map((teacher) => (
+        {items.map((teacher) => (
           <li key={teacher.id}>
             <TeachersItem teacher={teacher} />
           </li>
         ))}
-        {visibleClickMore && (
+        {visibleLoadMore && (
           <LoadMoreBtn type="button" onClick={clickLoadMore}>
             Load more
           </LoadMoreBtn>)}

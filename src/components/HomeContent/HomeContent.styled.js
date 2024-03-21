@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+export const Main = styled.main`
+height: 100vh;
+background-color: #FFF;
+`
+
 export const Wrapper = styled.div`
 display: flex;
 justify-content: center;

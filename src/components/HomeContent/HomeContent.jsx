@@ -6,6 +6,7 @@ import {
   LinkTo,
   List,
   MacImg,
+  Main,
   RightWrap,
   Span,
   StartedBtn,
@@ -21,11 +22,8 @@ import apple from '../../assets/apple.svg';
 
 export const HomeContent = () => {
 
-    
-
-
   return (
-    <main>
+    <Main>
       <Wrapper>
         <LeftWrap>
           <Title>
@@ -65,6 +63,6 @@ export const HomeContent = () => {
         </Item>
           </List>
           
-    </main>
+    </Main>
   );
 };

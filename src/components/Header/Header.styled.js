@@ -1,9 +1,16 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+export const Head = styled.header`
+background-color: #FFF;
+height: 100%;
+`
+
 export const HeaderWrap = styled.div`
 max-width: 1440px;
-margin: 20px auto;
+margin: 0px auto;
+padding-top: 20px;
+padding-bottom: 20px;
 display: flex;
 justify-content: space-around;
 align-items: center;
