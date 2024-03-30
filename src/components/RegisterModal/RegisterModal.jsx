@@ -3,7 +3,7 @@ import { RegisterForm } from "../RegisterForm/RegisterForm";
 import { LoginForm } from "../LoginForm/LoginForm";
 import { X } from "lucide-react";
 import { CloseBtn, ModalWrap } from "./Modal.styled";
-
+import { LessonModal } from "../LessonModal/LessonModal";
 
 const customStyles = {
   content: {
@@ -20,7 +20,7 @@ const customStyles = {
   },
 };
 
-export const RegisterModal = ({ modalIsOpen, closeModal, modal }) => {
+export const RegisterModal = ({ modalIsOpen, closeModal, modal, name, avatar_url }) => {
   Modal.setAppElement("#root");
   return (
     <Modal
@@ -30,9 +30,21 @@ export const RegisterModal = ({ modalIsOpen, closeModal, modal }) => {
       closeTimeoutMS={450}
     >
       <ModalWrap>
-        <CloseBtn onClick={closeModal}><X size={32}/></CloseBtn>
+        <CloseBtn onClick={closeModal}>
+          <X size={32} />
+        </CloseBtn>
         {modal === "register" && <RegisterForm />}
-        {modal === "login" && <LoginForm modalIsOpen={modalIsOpen} onRequestClose={closeModal} />}
+        {modal === "login" && (
+          <LoginForm modalIsOpen={modalIsOpen} onRequestClose={closeModal} />
+        )}
+        {modal === "lesson" && (
+          <LessonModal
+            modalIsOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            name={name}
+            avatar_url={avatar_url}
+          />
+        )}
       </ModalWrap>
     </Modal>
   );

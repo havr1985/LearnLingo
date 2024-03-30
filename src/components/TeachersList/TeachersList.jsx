@@ -14,7 +14,7 @@ export const TeachersList = () => {
   const isError = useSelector(selectIsError);
 
   const [items, setItems] = useState([]);
-  const [pageSize, setPageSize] = useState(8);
+  const [pageSize, setPageSize] = useState(4);
   const [visibleLoadMore, setVisibleLoadMore] = useState(true);
   const [teachers, setTeachers] = useState([])
 

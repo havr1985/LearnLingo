@@ -30,6 +30,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFavoriteTeachers } from "../../redux/teachersSelectors";
 import { changeFavorite } from "../../redux/favoriteSlice";
+import { RegisterModal } from "../RegisterModal/RegisterModal";
 
 
 export const TeachersItem = (teacher) => {
@@ -52,6 +53,8 @@ export const TeachersItem = (teacher) => {
   } = teacher;
 
   const [readMore, setReadMore] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modal, setModal] = useState("");
   const favoriteTeachers = useSelector(selectFavoriteTeachers);
   
     const isFavorite = favoriteTeachers.some((teacher) => teacher.id === id) ;
@@ -87,6 +90,17 @@ const handlePressed = () => {
   const clickReadMore = () => {
     setReadMore(true);
   };
+
+  const openModal = () => {
+    setIsOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    document.body.style.overflow = "auto";
+  };
+
 
   
 
@@ -156,9 +170,22 @@ const handlePressed = () => {
               <LevelsText key={idx}>#{item}</LevelsText>
             ))}
           </LevelsWrap>
-          {readMore && <TrialBtn type="button">Book trial lesson</TrialBtn>}
+          {readMore && <TrialBtn type="button" onClick={() => {
+            openModal();
+            setModal('lesson')
+          }}>Book trial lesson</TrialBtn>}
         </TitleWrap>
       </Box>
+      {modalIsOpen && (
+        <RegisterModal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          openModal={openModal}
+          modal={modal}
+          name={name}
+          avatar_url={avatar_url}
+        />
+      )}
     </CardWrapper>
   );
 };
