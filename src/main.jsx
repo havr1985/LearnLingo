@@ -12,7 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename='LearnLingo'>
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>

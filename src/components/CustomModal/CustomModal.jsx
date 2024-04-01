@@ -1,9 +1,6 @@
 import Modal from "react-modal";
-import { RegisterForm } from "../RegisterForm/RegisterForm";
-import { LoginForm } from "../LoginForm/LoginForm";
 import { X } from "lucide-react";
 import { CloseBtn, ModalWrap } from "./Modal.styled";
-import { LessonModal } from "../LessonModal/LessonModal";
 
 const customStyles = {
   content: {
@@ -20,7 +17,7 @@ const customStyles = {
   },
 };
 
-export const RegisterModal = ({ modalIsOpen, closeModal, modal, name, avatar_url }) => {
+export const CustomModal = ({ modalIsOpen, closeModal, children }) => {
   Modal.setAppElement("#root");
   return (
     <Modal
@@ -33,18 +30,7 @@ export const RegisterModal = ({ modalIsOpen, closeModal, modal, name, avatar_url
         <CloseBtn onClick={closeModal}>
           <X size={32} />
         </CloseBtn>
-        {modal === "register" && <RegisterForm />}
-        {modal === "login" && (
-          <LoginForm modalIsOpen={modalIsOpen} onRequestClose={closeModal} />
-        )}
-        {modal === "lesson" && (
-          <LessonModal
-            modalIsOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            name={name}
-            avatar_url={avatar_url}
-          />
-        )}
+        {children}
       </ModalWrap>
     </Modal>
   );

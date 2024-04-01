@@ -4,11 +4,11 @@ import * as Yup from "yup";
 import { ErrMsg } from "../RegisterForm/RegistrationForm.styled";
 import toast from "react-hot-toast";
 
-export const LessonModalForm = () => {
+export const LessonModalForm = ({ modalStateSwapper }) => {
   const formik = useFormik({
     initialValues: {
       fullName: "",
-      phone: null,
+      phone: undefined,
       email: "",
       picked: "",
     },
@@ -27,6 +27,7 @@ export const LessonModalForm = () => {
     onSubmit: (values, action) => {
       toast.success("Congratulation, you have signed up for a trial lesson!");
       action.resetForm();
+      modalStateSwapper();
     },
   });
   return (
